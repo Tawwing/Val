@@ -22,4 +22,7 @@ private:
     Token ReadNumber();
     Token ReadIdentifierOrKeyword();
     Token ReadSymbol();
+
+    std::string GetLine(int LineNumber);
+    [[noreturn]] void Error(const std::string& Message, int AtLine, int AtColumn);
 };

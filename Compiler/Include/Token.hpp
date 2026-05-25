@@ -4,13 +4,14 @@
 enum class TokenType {
     // Literals
     INTEGER_LIT, FLOAT_LIT, STRING_LIT, IDENTIFIER,
-
+    BOOL_LIT,
+    
     // Keywords - Types
     INT, FLOAT, BOOL, CHAR, VOID,
 
     // Keywords - General
-    FUNCTION, RETURN, IMPORT, AS,
-    REF, MUT, IF, ELSE, WHILE, FOR,
+    FUNCTION, RETURN, IMPORT, AS, NOT,
+    REF, MUT, IF, ELSE, WHILE, FOR, OR, AND,
 
     // Symbols
     PLUS, MINUS, STAR, SLASH, PERCENT,
