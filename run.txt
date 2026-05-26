@@ -1,0 +1,2 @@
+g++ -std=c++17 -o Val -I. ./Compiler/Main.cpp ./Compiler/Lexer/Lexer.cpp
+./Val ./Examples/Test.val

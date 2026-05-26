@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <unordered_map>
+#include <cctype>
 
 Lexer::Lexer(const std::string& TextSource) : Pos(0), Line(1), Column(1), Source(TextSource) {};
 
@@ -18,10 +19,16 @@ char Lexer::Peek(int Forward) {
     return Source[Pos + Forward]; 
 }
 void Lexer::Advance() {
-    if (Pos >= Source.size()) {
-        return;
-    }
+    if (Pos >= Source.size()) return;
+
     if (Source[Pos] == '\n') {
+        Line++;
+        Column = 1;
+    } else if (Source[Pos] == '\r') {
+        if (Pos + 1 < Source.size() && Source[Pos + 1] == '\n') {
+            Pos++; 
+            return;
+        }
         Line++;
         Column = 1;
     } else {
@@ -29,7 +36,6 @@ void Lexer::Advance() {
     }
     Pos++;
 }
-
 void Lexer::SkipWhitespace() {
     while (Current() == ' ' || Current() == '\t' || Current() == '\n' || Current() == '\r') {
         Advance();
@@ -64,7 +70,6 @@ Token Lexer::ReadIdentifierOrKeyword() {
         {"return",  TokenType::RETURN   },
         {"import",  TokenType::IMPORT   },
         {"ref",     TokenType::REF      },
-        {"mut",     TokenType::MUT      },
         {"if",      TokenType::IF       },
         {"else",    TokenType::ELSE     },
         {"while",   TokenType::WHILE    },
@@ -74,6 +79,8 @@ Token Lexer::ReadIdentifierOrKeyword() {
         {"not",     TokenType::NOT      },
         {"or",      TokenType::OR       },
         {"and",     TokenType::AND      },
+        {"const",   TokenType::CONST    },
+
     };  
     std::string Word;
     int StartLine = Line; int StartColumn = Column;
@@ -103,20 +110,22 @@ Token Lexer::ReadString() {
                 Word += '\t'; Advance(); Advance();
             } else if (Peek(1) == '"') {
                 Word += '"'; Advance(); Advance();
+            } else if (Peek(1) == '\'') {
+                Word += '\''; Advance(); Advance();
             } else if (Peek(1) == '\\') {
                 Word += '\\'; Advance(); Advance();
             } else {
-                Error("Invaild Escape Character", Line, Column);
+                Error("Invaild Escape Character", StartLine, StartColumn);
             }
             continue;
         }
         Word += Current(); Advance();
     }
     if (Current() == '\n') {
-        Error("Unterminated string, unexpected newline", Line, Column);
+        Error("Unterminated string, unexpected newline", StartLine, StartColumn);
     }
     if (Current() == '\0') {
-        Error("Unterminated string", Line, Column);
+        Error("Unterminated string", StartLine, StartColumn);
     }
     Advance();
     return Token{TokenType::STRING_LIT, Word, StartLine, StartColumn};
@@ -140,10 +149,31 @@ Token Lexer::ReadNumber() {
             if (Current() == '.') {
                 Error("Malformed float literal, unexpected second '.'", StartLine, StartColumn);
             }
+            if (isalpha(Current()) || Current() == '_') {
+                int ErrorLine = Line;
+                int ErrorColumn = Column;
+                std::string FullInvalid = Number;
+                while (isalnum(Current()) || Current() == '_' || Current() == '.') {
+                    FullInvalid += Current();
+                    Advance();
+                }
+                Error("Invalid numeric literal: '" + FullInvalid + "'", ErrorLine, ErrorColumn);
+            }
             return {TokenType::FLOAT_LIT, Number, StartLine, StartColumn};
         } else {
             Error("Malformed float literal, trailing '.'", StartLine, StartColumn);
         }
+    }
+
+    if (isalpha(Current()) || Current() == '_') {
+        int ErrorLine = Line;
+        int ErrorColumn = Column;
+        std::string FullInvalid = Number;
+        while (isalnum(Current()) || Current() == '_' || Current() == '.') {
+            FullInvalid += Current();
+            Advance();
+        }
+        Error("Invalid numeric literal: '" + FullInvalid + "'", ErrorLine, ErrorColumn);
     }
 
     return {TokenType::INTEGER_LIT, Number, StartLine, StartColumn};
@@ -205,6 +235,7 @@ Token Lexer::ReadSymbol() {
         case '.': Advance(); return {TokenType::DOT, ".", StartLine, StartColumn};
         
         default:
+            Advance();
             Error("Unknown symbol: '" + std::string(1, CurrentChar) + "'", StartLine, StartColumn);
             break;
     }

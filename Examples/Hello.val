@@ -3,4 +3,5 @@ import <Console>
 
 function main(): void {
     Console.print("Hello, World!");
+    "\""
 }

@@ -1,0 +1,15 @@
+// Memory.val
+import <Memory> 
+
+function main(): void {
+    // Basic Memory Operations 
+    int x = 10;               // int x = 10
+    const int y = 20;         // const int y = 20
+    ref ptr1 = x.getAddress();             // int *ptr1 = &x
+    const ref ptr2 = y.getAddress();       // const int *ptr2 = &y
+    ptr1.set(30)              // *ptr1 = 30
+
+    // Pointer Memory Operations 
+    ref z = Memory.allocate(int); // int *z = malloc(sizeof(int))
+    z.destroy();                  // free(z)
+}
