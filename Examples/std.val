@@ -1,0 +1,35 @@
+// std.val
+// Here are the functions that Val's std libraries must come with 
+import <Console>
+import <Math>
+import <String>
+
+function main(): void {
+    // Console
+    Console.print("Hello, World!\n");
+    Console.println("Hello again!");
+    Console.warn("Yellow Warning Text");
+    Console.error("Red Error Text and Exit");
+    Console.ReadKey();
+    Console.ReadLine();
+    Console.exit(0);
+
+    // Math
+    Math.random(1, 10);
+    Math.sin(0);
+    Math.cos(0);
+    Math.tan(0);
+    Math.abs(-5);
+    Math.power(2, 4);
+    Math.min(10, 20);
+    Math.max(10, 20);
+
+    // String
+    string str = "This is a string"; // const char* []
+    string Message = String.concat("Your age is: ", 13 as string); // return a new string since string are inmutable
+    str.length();
+    str.empty();
+    str.get(1);
+    str.toUpper();
+    str.toLower();
+}

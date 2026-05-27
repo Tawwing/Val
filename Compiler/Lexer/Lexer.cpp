@@ -98,6 +98,10 @@ Token Lexer::ReadIdentifierOrKeyword() {
     return Token{TokenType::IDENTIFIER, Word, StartLine, StartColumn};
 }
 
+Token Lexer::ReadChar() {
+    
+}
+
 Token Lexer::ReadString() {
     std::string Word;
     int StartLine = Line; int StartColumn = Column;
@@ -281,6 +285,10 @@ std::vector<Token> Lexer::Tokenize() {
         if (Current() == '/' && Peek(1) == '*') { 
             SkipComment(true);  
             continue; 
+        }
+        // Char Literal
+        if (Current() == '\'') {
+
         }
         // String literal 
         if (Current() == '"') { 

@@ -19,6 +19,7 @@ private:
     void SkipComment(bool IsMultiline);
 
     Token ReadString();
+    Token ReadChar();
     Token ReadNumber();
     Token ReadIdentifierOrKeyword();
     Token ReadSymbol();

@@ -30,8 +30,8 @@ int main(int argc, char* argv[]) {
     Lexer L = Lexer{Source};
     auto Tokens = L.Tokenize();
     for (const auto& token : Tokens) {
-    std::cout << "Type: " << (int)token.Type << ", Value: " << token.Value 
-              << ", Line: " << token.Line << ", Col: " << token.Column << std::endl;
-}
+    std::cout << "{ Type: " << TokenTypeToString(token.Type) << ", Value: " << token.Value 
+              << ", Line: " << token.Line << ", Col: " << token.Column << "}" << std::endl;
+    }
     return 0;
 }

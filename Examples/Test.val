@@ -1,5 +1,1 @@
-import <Console> 
-
-function main(): void {
-    Console.print("Hello, World!");
-}
+int x = 42 + 3.14 * "hello"[0];
