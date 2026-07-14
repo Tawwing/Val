@@ -4,8 +4,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 
-void Vector_Init(Vector* Array, int Capacity) 
+void Vector_Init(Vector* Array, uint32_t Capacity) 
 {
     if (Capacity < 8) { Capacity = 8; }
     
@@ -60,5 +61,9 @@ void Vector_Free(Vector* Array)
     if (Array->Items != NULL) {
         free(Array->Items);
     }
+
+    Array->Items = NULL;
+    Array->Count = 0;
+    Array->Capacity = 0;
 };
 
