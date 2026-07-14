@@ -1,13 +1,14 @@
 // StringView.h
 
 #include <stdbool.h>
+#include <stdint.h>
 
 #ifndef STRINGVIEW_H
 #define STRINGVIEW_H
 
 typedef struct {
     const char* Pointer;
-    unsigned int Length;
+    uint32_t Length;
 } StringView;
 
 void StringView_Print(StringView* sv);

@@ -9,7 +9,7 @@
 void Vector_Init(Vector* Array, uint32_t Capacity) 
 {
     if (Capacity < 8) { Capacity = 8; }
-    
+
     Array->Items = malloc(Capacity * sizeof(void*));
 
     if (Array->Items == NULL) 
@@ -41,6 +41,13 @@ void Vector_Push(Vector* Array, void* Item)
         } 
         else 
         {
+
+            if (Array->Capacity > (UINT32_MAX / 2)) 
+            {
+                fprintf(stderr, "[Vector]: Capacity Overflow \n");
+                exit(1);
+            }
+
             Array->Capacity = Array->Capacity * 2;
             Array->Items = realloc(Array->Items, Array->Capacity * sizeof(void*));
 
