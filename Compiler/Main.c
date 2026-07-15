@@ -3,15 +3,18 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "Lib/Vector/Vector.h"
+#include "Compiler/Lib/Vector/Vector.h"
 
 
 int main() {
-    int a = 10;
+    int a = 13;
+    int b = 14;
     Vector v;
-    Vector_Init(&v, 126);
+    Vector_Init(&v, 8);
     Vector_Push(&v, &a);
+    Vector_Push(&v, &b);
 
+    printf("%d\n", v.Capacity);
     printf("%d\n", *(int*)v.Items[0]);
     Vector_Free(&v);
     return 0;

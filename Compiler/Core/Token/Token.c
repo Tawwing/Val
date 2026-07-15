@@ -1,6 +1,8 @@
 // Token.c
 #include "Token.h"
 
+#include <stdio.h>
+
 static const char* Token_Names[] = {
     // Specials
     [SPE_EOF]   = "EOF",

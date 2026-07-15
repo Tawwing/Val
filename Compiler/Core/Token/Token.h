@@ -3,7 +3,7 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-#include "Lib/StringView/StringView.h"
+#include "Compiler/Lib/StringView/StringView.h"
 
 #include <stdint.h>
 
